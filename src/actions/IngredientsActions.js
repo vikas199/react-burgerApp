@@ -1,10 +1,10 @@
 import * as Constants from '../Constants'
-import axios from '../axiosOrders'
+
 
 export function addIngredients(ingName) {
     return {
         type: Constants.ADD_INGREDIENT,
-        ingredientName:ingName
+        ingredientName: ingName
 
     }
 }
@@ -12,15 +12,15 @@ export function addIngredients(ingName) {
 export function removeIngredients(ingName) {
     return {
         type: Constants.REMOVE_INGREDIENT,
-        ingredientName:ingName
+        ingredientName: ingName
 
     }
 }
 
 export const setIngredients = (ingredients) => {
-    return{
+    return {
         type: Constants.SET_INGREDIENTS,
-        ingredients:ingredients
+        ingredients: ingredients
     }
 }
 export const fetchIngredientsFail = () => {
@@ -30,15 +30,7 @@ export const fetchIngredientsFail = () => {
 }
 
 export const initIngredients = () => {
-    return dispatch => {
-        axios.get('https://burger-fa843.firebaseio.com/ingredients.json')
-        .then(response => {
-            dispatch(setIngredients(response.data))
-        })
-        .catch(error => {
-            dispatch(fetchIngredientsFail());
-        })
+    return {
+        type: Constants.INIT_INGREDIENT_START
     }
-
-    
 }

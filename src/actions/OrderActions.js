@@ -1,5 +1,5 @@
 import * as Constants from '../Constants'
-import axios from '../axiosOrders'
+
 
 export const purchaseSuccess = (id, orderData) => {
     return {
@@ -28,15 +28,10 @@ export const purchaseInit = () => {
 }
 
 export const purchaseBurgerStart = (orderData, token) => {
-    return dispatch => {
-        dispatch(purchaseBegin())
-        axios.post('/orders.json?auth=' + token, orderData)
-        .then(response => {
-           dispatch(purchaseSuccess(response.data.name, orderData))
-        })
-        .catch(error => {
-            dispatch(purchaseFail(error))
-        })
+    return {
+        type: Constants.PURCHASE_BURGER_START,
+        orderData:orderData,
+        token:token
     }
 }
 
@@ -61,24 +56,9 @@ export const fetchOrderFail = (error) => {
 }
 
 export const fetchOrders = (token, userId) => {
-    return dispatch => {
-        dispatch(fetchOrderInit())
-        const queryParams = '?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"' ;
-        axios.get('/orders.json' + queryParams)
-        .then(response => {
-          //to convert an object data into array use this methodolgy
-          const fetchedOrders = [];
-          for(let key in response.data) {
-              fetchedOrders.push({
-                 ...response.data[key],
-                 id:key
-              });
-          }
-          dispatch(fetchOrderSuccess(fetchedOrders))
-         
-   })
-   .catch(error => {
-       dispatch(fetchOrderFail(error))
-   })
+    return {
+        type: Constants.FETCH_ORDERS,
+        token:token,
+        userId:userId
     }
 }
